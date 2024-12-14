@@ -1,5 +1,6 @@
-// import { Thought, User } from '../models/index.js';
-// import { signToken, AuthenticationError } from '../utils/auth.js'; 
+import models from '../models/index.js';
+const User = models.User
+import { signToken, AuthenticationError } from '../utils/auth.js'; 
 
 // // Define types for the arguments
 // interface AddUserArgs {
@@ -40,14 +41,14 @@
 //   commentId: string;
 // }
 
-const resolvers: unknown= {
+const resolvers = {
   Query: {
   //   users: async () => {
   //     return User.find().populate('thoughts');
   //   },
-  //   user: async (_parent: any, { username }: UserArgs) => {
-  //     return User.findOne({ username }).populate('thoughts');
-  //   },
+    user: async (_parent: any, { username }: UserArgs) => {
+      return User.findOne({ username }).populate('thoughts');
+    },
   //   thoughts: async () => {
   //     return await Thought.find().sort({ createdAt: -1 });
   //   },
@@ -77,22 +78,22 @@ const resolvers: unknown= {
   //     return { token, user };
   //   },
     
-  //   login: async (_parent: any, { email, password }: LoginUserArgs) => {
-  //     // Find a user with the provided email
-  //     const user = await User.findOne({ email });
+    login: async (_parent: any, { email, password }: LoginUserArgs) => {
+      // Find a user with the provided email
+      const user = await User.findOne({ email });
     
-  //     // If no user is found, throw an AuthenticationError
-  //     if (!user) {
-  //       throw new AuthenticationError('Could not authenticate user.');
-  //     }
+      // If no user is found, throw an AuthenticationError
+      if (!user) {
+        throw new AuthenticationError('Could not authenticate user.');
+      }
     
-  //     // Check if the provided password is correct
-  //     const correctPw = await user.isCorrectPassword(password);
+      // Check if the provided password is correct
+      const correctPw = await user.isCorrectPassword(password);
     
-  //     // If the password is incorrect, throw an AuthenticationError
-  //     if (!correctPw) {
-  //       throw new AuthenticationError('Could not authenticate user.');
-  //     }
+      // If the password is incorrect, throw an AuthenticationError
+      if (!correctPw) {
+        throw new AuthenticationError('Could not authenticate user.');
+      }
     
   //     // Sign a token with the user's information
   //     const token = signToken(user.username, user.email, user._id);

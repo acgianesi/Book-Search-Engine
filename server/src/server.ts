@@ -1,13 +1,23 @@
 import express from 'express';
 import path from 'node:path';
+import type { Request,Response } from 'express';
 import db from './config/connection.js';
 import routes from './routes/index.js';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { typeDefs, resolvers } from './schemas/index.js';
+import { authenticateToken } from './services/auth.js';
 
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
+
+const server = new ApolloServer{(
+  typeDefs,
+  resolvers
+)};
 
 const app = express();
 const PORT = process.env.PORT || 3001;
