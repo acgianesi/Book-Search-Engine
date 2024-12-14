@@ -11,14 +11,14 @@ import { signToken, AuthenticationError } from '../utils/auth.js';
 //   }
 // }
 
-// interface LoginUserArgs {
-//   email: string;
-//   password: string;
-// }
+interface LoginUserArgs {
+  email: string;
+  password: string;
+}
 
-// interface UserArgs {
-//   username: string;
-// }
+interface UserArgs {
+  username: string;
+}
 
 // interface ThoughtArgs {
 //   thoughtId: string;
@@ -95,26 +95,13 @@ const resolvers = {
         throw new AuthenticationError('Could not authenticate user.');
       }
     
-  //     // Sign a token with the user's information
-  //     const token = signToken(user.username, user.email, user._id);
+      // Sign a token with the user's information
+      const token = signToken(user.username, user.email, user._id);
     
-  //     // Return the token and the user
-  //     return { token, user };
-  //   },
-  //   addThought: async (_parent: any, { input }: AddThoughtArgs, context: any) => {
-  //     if (context.user) {
-  //       const thought = await Thought.create({ ...input });
-
-  //       await User.findOneAndUpdate(
-  //         { _id: context.user._id },
-  //         { $addToSet: { thoughts: thought._id } }
-  //       );
-
-  //       return thought;
-  //     }
-  //     throw AuthenticationError;
-  //     ('You need to be logged in!');
-  //   },
+      // Return the token and the user
+      return { token, user };
+    },
+    
   //   addComment: async (_parent: any, { thoughtId, commentText }: AddCommentArgs, context: any) => {
   //     if (context.user) {
   //       return Thought.findOneAndUpdate(
