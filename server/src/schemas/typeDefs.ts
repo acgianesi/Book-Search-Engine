@@ -1,29 +1,33 @@
 const typeDefs = `
   type User {
-    _id: ID
-    username: String
+    _id: ID!
+    username: String!
     email: String
-    password: String
-    thoughts: [Thought]!
+   bookCount: Int 
+    thoughts: [Book]!
   }
 
-  type Thought {
-    _id: ID
-    thoughtText: String
-    thoughtAuthor: String
-    createdAt: String
-    comments: [Comment]!
+   type Book {
+    bookId: ID!
+    tauthors: [String]
+    description: String
+    title: String!
+    image: String
+    link: String
   }
 
-  type Comment {
-    _id: ID
-    commentText: String
-    createdAt: String
+  type Auth {
+    token: ID!
+    user: User
   }
 
-  input ThoughtInput {
-    thoughtText: String!
-    thoughtAuthor: String!
+  input BookInput {
+    bookId: String!
+    authors: [String]
+    description: String
+    title: String!
+    image: String
+    link: String
   }
 
   input UserInput {
@@ -38,21 +42,16 @@ const typeDefs = `
   }
 
   type Query {
-    users: [User]
-    user(username: String!): User
-    thoughts: [Thought]!
-    thought(thoughtId: ID!): Thought
     me: User
   }
 
-  type Mutation {
-    addUser(input: UserInput!): Auth
+ type Mutation {
     login(email: String!, password: String!): Auth
-    addThought(input: ThoughtInput!): Thought
-    addComment(thoughtId: ID!, commentText: String!): Thought
-    removeThought(thoughtId: ID!): Thought
-    removeComment(thoughtId: ID!, commentId: ID!): Thought
+    addUser(input: UserInput!): Auth
+    saveBook(input: BookInput!): User
+    removeBook(bookId: ID!): User
   }
 `;
+
 
 export default typeDefs;
